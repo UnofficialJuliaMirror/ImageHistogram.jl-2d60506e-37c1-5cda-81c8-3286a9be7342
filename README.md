@@ -8,8 +8,6 @@
 
 Implement 2d and 3d histograms of images. Support gray and colored. Include support for plotting and some predefined layouts.
 
-Implement 2d and 3d histograms of images. Support gray and colored. Include support for plotting and some predefined layouts.
-
 ## Goal and purpose
 Main purpose is to have a view to the color sitribution to check the quality of photos.
 And to have a reasonable sized window and not a little stamp.
@@ -126,7 +124,9 @@ redv, greenv,bluev, colv = ImageHistogramTest.imhistogramRGB3d_new2(img_col256);
 
 redv=redv*255.0; greenv=greenv*255.0; bluev=bluev*255.0;
 
-scatter3d(redv[1:50:end], greenv[1:50:end], bluev[1:50:end],color=colv[1:50:end], markerstrokewidth=0, markersize=2,marker=:circle) ; # set border of marker symbol to zero with 'markerstrokewidth=0'
+scatter3d(redv[1:50:end], greenv[1:50:end], bluev[1:50:end],color=colv[1:50:end], markerstrokewidth=0, markersize=2,marker=:circle)  # set border of marker symbol to zero with 'markerstrokewidth=0'
+
+scatter3d(redv[1:11:end], greenv[1:11:end], bluev[1:11:end],color=colv[1:11:end], ms=0.1, msw=0, xlims=(0,255),ylims=(0,255),bg=:black, cam=(85,80))  #  set the camera angle to see the plot in this case from above
 ```
 or just call
 
