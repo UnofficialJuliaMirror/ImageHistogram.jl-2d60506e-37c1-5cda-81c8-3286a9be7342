@@ -383,7 +383,7 @@ end # function normalize_histogram(imhisto_raw::AbstractArray, norm_type::Int = 
 
 function plot_imhi(;ihGray_cooked::AbstractArray = [0], ihR_cooked::AbstractArray = [0],
                    ihG_cooked::AbstractArray = [0], ihB_cooked::AbstractArray = [0],
-                   how::Int = 1, bg::Int = 0)
+                   how::Int = 4, bg::Int = 0)
     #
     if (bg == 0)
         theme(:dark); # good for electronic media
@@ -421,12 +421,13 @@ function plot_imhi(;ihGray_cooked::AbstractArray = [0], ihR_cooked::AbstractArra
         pl_G = plot(ihG_cooked, ylims=(0,nf), color=:green, w=3);
         pl_B = plot(ihB_cooked, ylims=(0,nf), color=:blue, w=3);
 
-        plot(pl_Gray, pl_R, pl_G, pl_B, layout=(2,2), legend=false);
+        #plot(pl_Gray, pl_R, pl_G, pl_B, layout=(2,2), legend=false);
+        plot(pl_Gray, pl_B, pl_G, pl_R, layout=(2,2), legend=false);
     end
 end
 
 
-function plot_imhi_GrayRGB(imarray::AbstractArray, how::Int = 1, bg::Int = 0)
+function plot_imhi_GrayRGB(imarray::AbstractArray; how::Int = 2, bg::Int = 0)
     # bg := 0 => dark theme as background <=> see PlotThemes package for details
     # bg := 1 => default theme as background
     #
@@ -441,46 +442,8 @@ function plot_imhi_GrayRGB(imarray::AbstractArray, how::Int = 1, bg::Int = 0)
     ihR, ihG, ihB = ImageHistogramTest.imhistogramRGB(imarray);
     ihGray = ImageHistogramTest.imhistogramGray(imarray);
 
-    if (background == 0)
-        theme(:dark); # good for electronic media
-        GrayShade=:lightgray;
-    else
-        theme(:default); # good for paper
-        GrayShade=:gray71;
-    end        
+    plot_imhi(ihGray_cooked=ihGray,ihR_cooked=ihR, ihG_cooked=ihG, ihB_cooked=ihB, how=how, bg=bg)
 
-    if (how == 1)
-        plot(ihGray, color=GrayShade, w=3, line=:sticks);
-        plot!(ihR, color=:red, w=3);
-        plot!(ihG, color=:green, w=3);
-        plot!(ihB, color=:blue, w=3);
-    elseif (how == 2)
-        pl_Gray = plot(ihGray, color=GrayShade, w=3, line=:sticks);
-        pl_RGB = plot(ihR, color=:red, w=3);
-        pl_RGB = plot!(ihG, color=:green, w=3);
-        pl_RGB = plot!(ihB, color=:blue, w=3);
-
-        plot(pl_Gray, pl_RGB, layout=(2,1), legend=false);
-    elseif (how == 3)
-        nf = calc_histogram_norm_factor(ihR, ihG, ihB); # ToDo : make it optional
-
-        pl_R = plot(ihR, ylims=(0,nf), color=:red, w=3);
-        pl_G = plot(ihG, ylims=(0,nf), color=:green, w=3);
-        pl_B = plot(ihB, ylims=(0,nf), color=:blue, w=3);
-
-        plot(pl_R, pl_G, pl_B, layout=(3,1), legend=false);
-    elseif (how == 4)
-        nf = calc_histogram_norm_factor(ihGray, ihR, ihG, ihB); # ToDo : make it optional
-
-        pl_Gray = plot(ihGray, ylims=(0,nf), color=GrayShade, w=3, line=:sticks);
-        pl_R = plot(ihR, ylims=(0,nf), color=:red, w=3);
-        pl_G = plot(ihG, ylims=(0,nf), color=:green, w=3);
-        pl_B = plot(ihB, ylims=(0,nf), color=:blue, w=3);
-
-        plot(pl_Gray, pl_R, pl_G, pl_B, layout=(2,2), legend=false);
-    end
-        
-    
     #=
     # das folgende braucht noch 'using Plots'
     # Plot examples:
@@ -515,5 +478,6 @@ function plot_imhi_GrayRGB(imarray::AbstractArray, how::Int = 1, bg::Int = 0)
     
     =#
 end # function plot_imhi_GrayRGB
+
 
 end # module ImageHistoryTest
